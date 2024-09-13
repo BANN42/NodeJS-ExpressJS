@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-
+// app.set('strict routing', false)
 const ReadFileSync = (filePath) => {
      return fs.readFileSync(filePath, 'utf8');
 }
@@ -19,7 +19,8 @@ const BooksList = JSON.parse(ReadFileSync('books.json'));
 app.get('/api/books', function(req, res){
      res.json(BooksList).status(200);
      res.end();
-}) 
+});
+
 
 // get a single book by id
 app.get('/api/books/:id', function(req, res){
@@ -32,6 +33,32 @@ app.get('/api/books/:id', function(req, res){
      }
      res.end();
 })
+
+// add book
+app.post('/api/books', function(req ,res) {
+     console.log(req.body);
+     const {title, author, year, genre} = req.body;
+     // create new Object Book
+     const newBook = {
+          id : BooksList.length + 1,genre,
+          title, author, year :  parseInt(year)
+     }
+     try{
+          // add new Book to BooksList
+     BooksList.push(newBook);
+     // save BooksList to file
+     fs.writeFileSync('books.json', JSON.stringify(BooksList));
+     // return new Book
+     res.json(newBook).status(201);
+     res.end();
+     }catch(err){
+          res.status(500).json({message: 'Error adding book', error: err});
+          res.end();
+     }
+})
+
+
+
 
 
 
