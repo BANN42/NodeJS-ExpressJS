@@ -57,6 +57,46 @@ app.post('/api/books', function(req ,res) {
      }
 })
 
+// update book 
+app.put('/api/books/:id', function(req, res){
+     const bookId = +req.params.id;
+     const {title, author, year, genre} = req.body;
+     const book = BooksList.find(book => book.id === bookId);
+     if(book){
+          book.title = title;
+          book.author = author;
+          book.year = year;
+          book.genre = genre;
+          // save BooksList to file
+          fs.writeFileSync('books.json', JSON.stringify(BooksList));
+          // return updated book
+          res.json(book).status(200);
+     }else{
+          res.status(404).json({message: 'Book not found'});
+     }
+     res.end();
+})
+
+// delete book
+
+app.delete('/api/books/:id', function(req, res){
+     const bookId = +req.params.id;
+     const bookIndex = BooksList.findIndex(book => book.id === bookId);
+     if(bookIndex !== -1){
+          BooksList.splice(bookIndex, 1);
+          // save BooksList to file
+          fs.writeFileSync('books.json', JSON.stringify(BooksList));
+          // return success message
+          res.json({message: 'Book deleted successfully'}).status(200);
+     }else{
+          res.status(404).json({message: 'Book not found'});
+     }
+     res.end();
+});
+
+
+
+
 
 
 
