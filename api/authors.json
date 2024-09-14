@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "firstName" : "John",
+    "lastName" : "Doe",
+    "nationality" : "American",
+    "img" : "https://via.placeholder.com/150"
+  }
+]
