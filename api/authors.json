@@ -1,9 +1,16 @@
 [
-  {
-    "id": 1,
-    "firstName" : "John",
-    "lastName" : "Doe",
-    "nationality" : "American",
-    "img" : "https://via.placeholder.com/150"
-  }
+	{
+		"id": 1,
+		"firstName": "Meal",
+		"lastName": "Smith",
+		"nationality": "USA",
+		"img": "https://via.placeholder.com/150"
+	},
+	{
+		"id": 2,
+		"firstName": "Saad",
+		"lastName": "Mofid",
+		"nationality": "Syeria",
+		"img": "https://via.placeholder.com/150"
+	}
 ]

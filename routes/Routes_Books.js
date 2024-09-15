@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('node:fs');
-const {bookSchema, BookUpdateSchema} = require('../models/validationRules.js');
+const {bookSchema, BookUpdateSchema} = require('../Validation/validationRules.js');
 const Book_Routes = express.Router();
 
 const {readJsonContent} = require('../features/readFromJsonFile.js')

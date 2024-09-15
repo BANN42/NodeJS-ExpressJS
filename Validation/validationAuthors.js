@@ -1,9 +1,9 @@
 const Joi = require('joi');
 
 const AuthorsRules = Joi.object({
-     firstName : Joi.string().min(2).max(50).required(),
-     lastName : Joi.string().min(2).max(50).required(),
-     nationality : Joi.string().min(2).max(50).required(),
+     firstName : Joi.string().min(4).max(50).required(),
+     lastName : Joi.string().min(4).max(50).required(),
+     nationality : Joi.string().min(3).max(50).required(),
      img : Joi.string().required(),
 });
 

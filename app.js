@@ -2,9 +2,14 @@ const express = require('express');
 const app = express();
 app.use(express.json())
 
+//connect With DB
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/books').then(() => console.log('Connected'))
+.catch((err) => console.log("Something went wrong "  ,err));
+
 // books Router
-const Book_Routes = require('./routes/routeBooks');
-const routerAuthors = require('./routes/routeAuthors');
+const Book_Routes = require('./routes/Routes_Books');
+const routerAuthors = require('./routes/Routes_Authors');
 
 
 // books routes
