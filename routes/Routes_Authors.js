@@ -107,6 +107,7 @@ routerAuthors.put('/:id', async function(req, res){
      * @access Private
      * @method DELETE
 */
+
 routerAuthors.delete('/:id', async function(req, res){
      try {
           const findAuthorDelete = await Author.findByIdAndDelete(req.params.id);
@@ -116,7 +117,7 @@ routerAuthors.delete('/:id', async function(req, res){
      } catch (error) {
           console.log(error);
           res.status(500).json({ message: "Internal Server Error" });
-          res.end();
+          res.end(); 
      }
 });
 
