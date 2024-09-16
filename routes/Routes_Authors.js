@@ -16,14 +16,15 @@ const Author = require("../Models/Authors.js");
  * @method GET
 */
 
-routerAuthors.get('/' , async  function(req, res){
+routerAuthors.get('/', async function (req, res) {
+     const authors = await Author.find();
      try{
-          const authorsList = await Author.find();
-          res.status(200).json(authorsList);
+          res.status(200).json(authors);
           res.end();
      }catch(error){
           console.log(error)
-          res.status(500).json({message: 'Internal Server Error'});
+          res.status(500).json({ message: 'Internal Server Error' });
+          res.end();
      }
 });
 
@@ -35,9 +36,10 @@ routerAuthors.get('/' , async  function(req, res){
      * @method GET
 */
 
-routerAuthors.get('/:id', async function(req, res){
+routerAuthors.get('/:id', async function (req, res) {
+
      try {
-         const author = await Author.findById(req.params.id);
+               const author = await Author.findById(req.params.id);
          if (!author) return res.status(404).json({ message: "Author not found" });
          res.status(200).json(author);
          res.end();
@@ -55,14 +57,16 @@ routerAuthors.get('/:id', async function(req, res){
      * @method POST
 */
 routerAuthors.post('/', async function(req, res){
-     const {firstName, lastName, nationality, img} =  req.body;
-     const { error } = AuthorsRules.validate(req.body);
+     
+     
+     
+     try {
+          const {firstName, lastName, nationality, img} =  req.body;
+          const { error } = AuthorsRules.validate(req.body);
      if (error) {
      console.log(error);
           return res.status(400).json({ "message": error.details[ 0 ].message });
      };
-     
-     try {
           const newAuthor = new Author({
                firstName,
                lastName,
@@ -91,7 +95,7 @@ routerAuthors.put('/:id', async function(req, res){
      try {
           const authorUpdate = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
           if (!authorUpdate) return res.status(404).json({ message: "Author not found" });
-          res.status(200).json(authorUpdate);
+          res.status(200).json({ message: "Author updated successfully" });
           res.end();
      } catch (error) {
           console.log(error);
