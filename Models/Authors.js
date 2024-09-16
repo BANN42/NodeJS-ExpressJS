@@ -33,6 +33,6 @@ const mongoose = require('mongoose');
 });
 
 
-const Author = mongoose.model('Author', AuthorSchema);
+const Author = mongoose.model("Author", AuthorSchema);
 
 module.exports = Author;

@@ -1,6 +1,6 @@
 const express = require('express');
 const routerAuthors = express.Router();
-
+const asyncHandler = require('express-async-handler');
 
 
 
@@ -16,17 +16,13 @@ const Author = require("../Models/Authors.js");
  * @method GET
 */
 
-routerAuthors.get('/', async function (req, res) {
-     const authors = await Author.find();
-     try{
+routerAuthors.get('/', asyncHandler(
+     async function (req, res) {
+          const authors = await Author.find();
           res.status(200).json(authors);
-          res.end();
-     }catch(error){
-          console.log(error)
-          res.status(500).json({ message: 'Internal Server Error' });
-          res.end();
      }
-});
+)
+);
 
 
 /*
@@ -36,19 +32,13 @@ routerAuthors.get('/', async function (req, res) {
      * @method GET
 */
 
-routerAuthors.get('/:id', async function (req, res) {
-
-     try {
-               const author = await Author.findById(req.params.id);
+routerAuthors.get('/:id', asyncHandler(
+     async function (req, res) {
+         const author = await Author.findById(req.params.id);
          if (!author) return res.status(404).json({ message: "Author not found" });
          res.status(200).json(author);
-         res.end();
-     } catch (arror) {
-          console.log(arror);
-          res.status(500).json({ message: "Internal Server Error" });
-          res.end();
-    }
-});
+}
+));
 
 /*
      * @desc Create new author
@@ -56,34 +46,24 @@ routerAuthors.get('/:id', async function (req, res) {
      * @access Private
      * @method POST
 */
-routerAuthors.post('/', async function(req, res){
-     
-     
-     
-     try {
+routerAuthors.post('/', asyncHandler(
+     async function(req, res){
           const {firstName, lastName, nationality, img} =  req.body;
           const { error } = AuthorsRules.validate(req.body);
-     if (error) {
-     console.log(error);
-          return res.status(400).json({ "message": error.details[ 0 ].message });
-     };
+          if (error) {
+          console.log(error);
+               return res.status(400).json({ "message": error.details[ 0 ].message });
+          };
           const newAuthor = new Author({
                firstName,
                lastName,
                nationality,
                img
           });
-         
-         const result = await newAuthor.save();
-         
-    res.json(result).status(201);
-    res.end();
-    }catch(err){
-        console.log(err);
-        res.status(500).json({message: 'Internal Server Error'});
-        res.end();
-     };
-});
+          const result = await newAuthor.save();
+          res.json(result).status(201);
+}
+));
     
 /*
      * @desc Update author by id
@@ -91,18 +71,13 @@ routerAuthors.post('/', async function(req, res){
      * @access Private
      * @method PUT
 */
-routerAuthors.put('/:id', async function(req, res){
-     try {
+routerAuthors.put('/:id', asyncHandler(
+     async function(req, res){
           const authorUpdate = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
           if (!authorUpdate) return res.status(404).json({ message: "Author not found" });
           res.status(200).json({ message: "Author updated successfully" });
-          res.end();
-     } catch (error) {
-          console.log(error);
-          res.status(500).json({ message: "Internal Server Error" });
-          res.end();
-     }
-});
+}
+));
 
 
 /*
@@ -112,17 +87,12 @@ routerAuthors.put('/:id', async function(req, res){
      * @method DELETE
 */
 
-routerAuthors.delete('/:id', async function(req, res){
-     try {
+routerAuthors.delete('/:id', asyncHandler(
+     async function (req, res) {
           const findAuthorDelete = await Author.findByIdAndDelete(req.params.id);
           if (!findAuthorDelete) return res.status(404).json({ message: "Author not found" });
           res.status(200).json({ message: "Author deleted successfully" });
-          res.end();
-     } catch (error) {
-          console.log(error);
-          res.status(500).json({ message: "Internal Server Error" });
-          res.end(); 
-     }
-});
+     })
+);
 
 module.exports = routerAuthors;
