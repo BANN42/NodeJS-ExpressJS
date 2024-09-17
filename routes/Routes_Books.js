@@ -15,7 +15,7 @@ const Book = require('../Models/Books.js');
 
 Book_Routes.get('/', asyncHandler(
      async function (req, res) {
-          const books = await Book.find();
+          const books = await Book.find().populate('author');
           res.status(200).json(books);
      }
 ));
@@ -30,7 +30,7 @@ Book_Routes.get('/', asyncHandler(
 */
 Book_Routes.get("/:id", asyncHandler(
      async function (req, res) {
-          const BookId = await Book.findById(req.params.id);
+          const BookId = await Book.findById(req.params.id).populate('author');
           if (BookId) {
                res.status(200).json(BookId);
           } else {

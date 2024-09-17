@@ -1,9 +1,0 @@
-{
-	"editor.defaultFormatter": "vscode.typescript-language-features",
-	"editor.formatOnPaste": true,
-	"editor.formatOnSave": true,
-	"editor.defaultFoldingRangeProvider": "vscode.typescript-language-features",
-	"editor.formatOnType": true,
-	"editor.formatOnSaveMode": "modifications",
-	"files.trimTrailingWhitespaceInRegexAndStrings": false
-}
