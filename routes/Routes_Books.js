@@ -13,12 +13,16 @@ const Book = require('../Models/Books.js');
  * @method GET
 */
 
-Book_Routes.get('/', asyncHandler(
-     async function (req, res) {
-          const books = await Book.find().populate('author');
+Book_Routes.get('/', async function (req, res) {
+     try {
+          let books = await Book.find().populate('author');
           res.status(200).json(books);
+     } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: 'Internal Server Error ==> '+error });
      }
-));
+}
+);
 
 
 /*
@@ -45,22 +49,22 @@ Book_Routes.get("/:id", asyncHandler(
  * @access Public
  * @method POST
 */ 
-Book_Routes.post('/', async function(req ,res) {
-     try {
-          const { error, value } = bookSchema.validate(req.body);
+Book_Routes.post('/', asyncHandler(
+     async function (req, res) {
+          const { error } = bookSchema.validate(req.body);
           if (error) {
-               return res.status(400).json({ message: error.details[0].message });
+               res.status(400).json({ message: error.details[ 0 ].message });
           }
-          const book = new Book(value);
-          await book.save();
-          res.status(201).json(book);
-          res.end();
-     } catch (error) {
-          console.log(error);
-          res.status(500).json({ message: 'Internal Server Error' });
-          res.end();
+          const newBook = new Book({
+               author: req.body.author,
+               title: req.body.title,
+               genre: req.body.genre,
+               year: req.body.year,
+          });
+          newBook.save();
+          return res.status(201).json({ message: 'Book created successfully' });
      }
-});
+));
 
 
 /*
